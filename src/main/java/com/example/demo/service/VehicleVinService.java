@@ -31,10 +31,12 @@ public class VehicleVinService {
         ResponseEntity<String> response = null;
 
         response = restTemplate.getForEntity( url, String.class);
+        System.out.println("response : " + response);
 
         ObjectMapper mapper = new ObjectMapper();
 
         JsonNode jnode = mapper.readTree(response.getBody()).get("Results");
+        System.out.println("jnode: " + jnode);
 
         Iterator<JsonNode> jsonNodeIterator = jnode.iterator();
 
@@ -42,10 +44,10 @@ public class VehicleVinService {
 
         while (jsonNodeIterator.hasNext()) {
             JsonNode jsonNode = jsonNodeIterator.next();
-            VehicleDetails vehicleDetails = new VehicleDetails();
 
-            System.out.println(jsonNode.get("Value").asText());
             if (jsonNode.get("Value") != null){
+                VehicleDetails vehicleDetails = new VehicleDetails();
+
                 vehicleDetails.setValue(jsonNode.get("Value").asText());
                 vehicleDetails.setValueId(jsonNode.get("ValueId").asText());
                 vehicleDetails.setVariable(jsonNode.get("Variable").asText());
